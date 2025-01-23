@@ -1,5 +1,6 @@
-import Link from "next/link"
-import { cn } from "@/lib/utils"
+"use client"
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -8,135 +9,113 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
-import { ModeToggle } from "./ModeToggle"
-import React from "react"
-
-const components: { title: string; href: string; description: string }[] = [
-  {
-    title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
-  },
-  {
-    title: "Hover Card",
-    href: "/docs/primitives/hover-card",
-    description:
-      "For sighted users to preview content available behind a link.",
-  },
-  {
-    title: "Progress",
-    href: "/docs/primitives/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-  },
-  {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
-  },
-  {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-  },
-  {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-  },
-]
-
+} from "@/components/ui/navigation-menu";
+import { ModeToggle } from "./ModeToggle";
+import React, { useState } from "react";
+import { Button } from '@/components/ui/button'
 export function Header() {
-    return (
-        <header className="w-screen flex flex-row justify-between items-center p-4">
-            <div>
-                <Link href="/">
-                    <h1 className="text-2xl md:text-3xl lg:text-4xl">
-                        SharedPen
-                    </h1>
-                </Link>
-            </div>
-            <NavigationMenu>
-                <NavigationMenuList>
-                    <NavigationMenuItem>
-                    <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                        <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                        <li className="row-span-3">
-                            <NavigationMenuLink asChild>
-                            <a
-                                className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                                href="/"
-                            >
-                                <div className="mb-2 mt-4 text-lg font-medium">
-                                shadcn/ui
-                                </div>
-                                <p className="text-sm leading-tight text-muted-foreground">
-                                Beautifully designed components built with Radix UI and
-                                Tailwind CSS.
-                                </p>
-                            </a>
-                            </NavigationMenuLink>
-                        </li>
-                        <ListItem href="/docs" title="Introduction">
-                            Re-usable components built using Radix UI and Tailwind CSS.
-                        </ListItem>
-                        <ListItem href="/docs/installation" title="Installation">
-                            How to install dependencies and structure your app.
-                        </ListItem>
-                        <ListItem href="/docs/primitives/typography" title="Typography">
-                            Styles for headings, paragraphs, lists...etc
-                        </ListItem>
-                        </ul>
-                    </NavigationMenuContent>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                    <NavigationMenuTrigger>Components</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                        {components.map((component) => (
-                            <ListItem
-                            key={component.title}
-                            title={component.title}
-                            href={component.href}
-                            >
-                            {component.description}
-                            </ListItem>
-                        ))}
-                        </ul>
-                    </NavigationMenuContent>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                      <Link href="/docs" legacyBehavior passHref>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                        Documentation
-                        </NavigationMenuLink>
-                      </Link>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <NavigationMenuLink href="/login" className={navigationMenuTriggerStyle()}>
-                          login
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                      <NavigationMenuLink href="/signup" className={navigationMenuTriggerStyle()}>
-                        register
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                      <NavigationMenuLink href="/dashboard" className={navigationMenuTriggerStyle()}>
-                        dashboard
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
-                </NavigationMenuList>
-            </NavigationMenu>
-            <ModeToggle/>
-        </header>
-    )
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  return (
+    <header className="w-screen flex flex-wrap justify-between items-start p-4 md:p-6 shadow-md">
+      {/* Logo */}
+      <div className="mb-4 md:mb-0">
+        <Link href="/">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">
+            SharedPen
+          </h1>
+        </Link>
+      </div>
+      <div className="flex flex-col md:flex-row items-center justify-between">
+        <NavigationMenu className={`${isMenuOpen ? "block" : "hidden"} md:flex transition-[display] md:items-center md:space-x-4`}>
+          <NavigationMenuList className="flex flex-col md:flex-row gap-4">
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid gap-3 p-4 sm:w-[300px] md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                  <li className="row-span-3">
+                    <NavigationMenuLink asChild>
+                      <a
+                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                        href="/"
+                      >
+                        <div className="mb-2 mt-4 text-lg font-medium">
+                          SharedPen
+                        </div>
+                        <p className="text-sm leading-tight text-muted-foreground">
+                          A collaborative code editor for individuals and teams.
+                        </p>
+                      </a>
+                    </NavigationMenuLink>
+                  </li>
+                  <ListItem href="/features" title="Introduction">
+                    An overview of the platform and its features.
+                  </ListItem>
+                  <ListItem href="/get-started" title="Installation">
+                    How to get started with SharedPen.
+                  </ListItem>
+                  <ListItem href="/teams" title="Typography">
+                    Learn about team collaboration.
+                  </ListItem>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                href="/home"
+                className={navigationMenuTriggerStyle()}
+              >
+                home
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                href="/community"
+                className={navigationMenuTriggerStyle()}
+              >
+                community
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                href="/login"
+                className={navigationMenuTriggerStyle()}
+              >
+                Login
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                href="/signup"
+                className={navigationMenuTriggerStyle()}
+              >
+                Register
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                href="/dashboard"
+                className={navigationMenuTriggerStyle()}
+              >
+                Dashboard
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+        <div className="mt-4 md:mt-0 flex items-center space-x-4">
+          <Button onClick={()=>{
+            setIsMenuOpen(val=>!val)
+          }} className="md:hidden">
+            <svg
+              className="w-6 h-6 fill-current text-muted-foreground"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            > </svg>
+          </Button>
+          <ModeToggle />
+        </div>
+      </div>
+    </header>
+  );
 }
 
 const ListItem = React.forwardRef<
@@ -161,6 +140,6 @@ const ListItem = React.forwardRef<
         </a>
       </NavigationMenuLink>
     </li>
-  )
-})
-ListItem.displayName = "ListItem"
+  );
+});
+ListItem.displayName = "ListItem";

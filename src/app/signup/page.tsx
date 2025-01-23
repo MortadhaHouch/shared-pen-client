@@ -2,11 +2,16 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import {motion} from "framer-motion"
 import Image from 'next/image'
 import Src1 from "../../../public/assets/images/Editing body text-bro.svg"
+import { emailRegex } from '../../../utils/constants'
 export default function Signup() {
+    const [email,setEmail] = useState<string>('');
+    const [password,setPassword] = useState<string>('');
+    const [firstName,setFirstName] = useState<string>('');
+    const [lastName,setLastName] = useState<string>('');
   return (
     <main className='w-100 min-h-[100vh] flex justify-center items-center flex-wrap'>
         <motion.div
@@ -67,25 +72,24 @@ export default function Signup() {
                 <CardContent>
                     <div>
                         <label htmlFor='first-name'>first name</label>
-                        <Input id='first-name' name='first-name' type='text' placeholder='first name'/>
+                        <Input value={firstName} onChange={(e:ChangeEvent<HTMLInputElement>)=>setFirstName(e.target.value)} id='first-name' name='first-name' type='text' placeholder='first name'/>
                     </div>
                     <div>
                         <label htmlFor='last-name'>last name</label>
-                        <Input id='last-name' name='last-name' type='text' placeholder='last name'/>
+                        <Input value={lastName} onChange={(e:ChangeEvent<HTMLInputElement>)=>setLastName(e.target.value)} id='last-name' name='last-name' type='text' placeholder='last name'/>
                     </div>
                     <div>
                         <label htmlFor='email'>first name</label>
-                        <Input id='email' name='email' type='text' placeholder='email'/>
+                        <Input value={email} onChange={(e:ChangeEvent<HTMLInputElement>)=>setEmail(e.target.value)} id='email' name='email' type='email' placeholder='email'/>
                     </div>
                     <div>
                         <label htmlFor='password'>password</label>
-                        <Input id='password' name='password' type='password' placeholder='password'/>
+                        <Input value={password} onChange={(e:ChangeEvent<HTMLInputElement>)=>setPassword(e.target.value)} id='password' name='password' type='password' placeholder='password'/>
                     </div>
                 </CardContent>
                 <CardFooter className='flex flex-row justify-center items-center gap-2'>
-                    <Button className='bg-secondary flex-1' type='reset'>reset</Button>
-                    <Button className='bg-primary flex-1' type='submit'>register</Button>
-                </CardFooter>
+                    <Button disabled={firstName.length === 0 || lastName.length === 0 || email.length === 0 || !email.match(emailRegex) || password.length ===0} className='bg-primary flex-1' type='submit'>register</Button>
+                </CardFooter> 
             </Card>
         </motion.form>
     </main>

@@ -3,11 +3,14 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import {motion} from "framer-motion"
 import Image from 'next/image'
 import Src1 from "../../../public/assets/images/Editing body text-amico.svg"
+import { emailRegex } from '../../../utils/constants'
 export default function Login() {
+    const [email,setEmail] = useState<string>('');
+    const [password,setPassword] = useState<string>('');
   return (
     <main 
         className='w-100 min-h-[100vh] flex justify-center items-center flex-wrap'
@@ -67,16 +70,15 @@ export default function Login() {
                 <CardContent>
                     <div>
                         <label htmlFor="email">email</label>
-                        <Input type='email' placeholder='email'/>
+                        <Input value={email} type='email' placeholder='email' onChange={(e:ChangeEvent<HTMLInputElement>)=>setEmail(e.target.value)}/>
                     </div>
                     <div>
                         <label htmlFor="password">password</label>
-                        <Input type='password' placeholder='password'/>
+                        <Input value={password} type='password' placeholder='password' onChange={(e:ChangeEvent<HTMLInputElement>)=>setPassword(e.target.value)}/>
                     </div>
                 </CardContent>
                 <CardFooter className='flex flex-row justify-center items-center gap-2'>
-                    <Button className='bg-secondary flex-1' type='reset'>reset</Button>
-                    <Button className='bg-primary flex-1' type='submit'>register</Button>
+                    <Button disabled={email.length===0 || password.length === 0 || !email.match(emailRegex)} className='bg-primary flex-1' type='submit'>register</Button>
                 </CardFooter>
             </Card>
         </motion.form>
